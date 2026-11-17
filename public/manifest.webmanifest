@@ -1,0 +1,9 @@
+{
+  "name": "Offline: dates, not swipes",
+  "short_name": "Offline",
+  "start_url": "/app/today",
+  "display": "standalone",
+  "background_color": "#F6F4FA",
+  "theme_color": "#221B33",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

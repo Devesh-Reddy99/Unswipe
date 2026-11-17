@@ -1,0 +1,150 @@
+@import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/hanken-grotesk";
+
+/*
+ * Offline design tokens
+ * ink      #221B33  aubergine night: text, dark surfaces
+ * paper    #F6F4FA  page background
+ * marigold #F0A22E  primary actions (the colour of a "yes")
+ * leaf     #2E7D6B  trust: verified, safety
+ * rose     #D9486B  matches and dates
+ * mist     #E4DFEE  lines and quiet fills
+ * dusk     #5B5370  secondary text
+ */
+@theme {
+  --color-ink: #221b33;
+  --color-paper: #f6f4fa;
+  --color-marigold: #f0a22e;
+  --color-marigold-deep: #c97f10;
+  --color-leaf: #2e7d6b;
+  --color-leaf-soft: #e1f1ec;
+  --color-rose: #d9486b;
+  --color-rose-soft: #fbe6ec;
+  --color-mist: #e4dfee;
+  --color-dusk: #5b5370;
+  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk Variable", system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-marigold);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Reusable building blocks (Tailwind v4 custom utilities) */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-marigold text-ink hover:bg-[#e8951c];
+}
+@utility btn-dark {
+  @apply btn bg-ink text-paper hover:bg-[#352b4a];
+}
+@utility btn-ghost {
+  @apply btn border border-mist bg-white text-ink hover:border-dusk;
+}
+@utility btn-danger {
+  @apply btn border border-rose/40 bg-white text-rose hover:bg-rose-soft;
+}
+@utility field {
+  @apply w-full rounded-xl border border-mist bg-white px-3.5 py-2.5 text-ink placeholder:text-dusk/60 focus:border-ink focus:outline-none;
+}
+@utility label {
+  @apply mb-1.5 block text-sm font-bold text-ink;
+}
+@utility hint {
+  @apply text-sm text-dusk;
+}
+@utility panel {
+  @apply rounded-2xl border border-mist bg-white;
+}
+@utility chip {
+  @apply inline-flex items-center gap-1 rounded-full border border-mist bg-white px-3 py-1 text-sm;
+}
+@utility chip-on {
+  @apply border-ink bg-ink text-paper;
+}
+
+/* The date ticket: the one signature element. Two half-circle notches mark the tear line. */
+.ticket {
+  position: relative;
+  border-radius: 20px;
+  background: #fff;
+  border: 1.5px solid var(--color-ink);
+}
+.ticket-tear {
+  position: relative;
+  border-top: 2px dashed var(--color-mist);
+}
+.ticket-tear::before,
+.ticket-tear::after {
+  content: "";
+  position: absolute;
+  top: -13px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--notch-bg, var(--color-paper));
+  border: 1.5px solid var(--color-ink);
+}
+.ticket-tear::before {
+  left: -13px;
+  clip-path: inset(0 0 0 50%);
+}
+.ticket-tear::after {
+  right: -13px;
+  clip-path: inset(0 50% 0 0);
+}
+
+@keyframes stamp {
+  0% {
+    transform: scale(1.6) rotate(-14deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.95) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-8deg);
+    opacity: 1;
+  }
+}
+.stamp {
+  animation: stamp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  animation-delay: 0.35s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    animation: none;
+    transform: rotate(-8deg);
+  }
+}

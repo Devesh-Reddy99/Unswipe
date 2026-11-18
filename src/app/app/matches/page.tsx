@@ -43,7 +43,7 @@ export default async function Matches({ searchParams }: { searchParams: Promise<
         {open.map((m) => {
           const s = status(m);
           return (
-            <li key={m.match.id}>
+            <li key={m.match.id} className="min-w-0">
               <Link href={`/app/matches/${m.match.id}`} className="panel flex items-center gap-4 p-4 hover:border-dusk">
                 <Avatar seed={m.other.avatarSeed} photo={m.other.photo} name={m.other.name} size={56} />
                 <div className="min-w-0 flex-1">
@@ -67,7 +67,7 @@ export default async function Matches({ searchParams }: { searchParams: Promise<
           <h2 className="mt-10 text-lg font-bold text-dusk">Closed</h2>
           <ul className="mt-3 grid gap-2">
             {past.map((m) => (
-              <li key={m.match.id}>
+              <li key={m.match.id} className="min-w-0">
                 <Link href={`/app/matches/${m.match.id}`} className="flex items-center gap-3 rounded-2xl px-2 py-2 text-dusk hover:bg-white">
                   <Avatar seed={m.other.avatarSeed} photo={m.other.photo} name={m.other.name} size={36} className="opacity-60" />
                   <span>{m.other.name}</span>

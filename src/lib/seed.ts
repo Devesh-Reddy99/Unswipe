@@ -90,7 +90,7 @@ function prompts(r: () => number): Prompt[] {
 const hoursAgo = (h: number) => new Date(Date.now() - h * 36e5);
 const hoursFromNow = (h: number) => new Date(Date.now() + h * 36e5);
 const token = () => randomBytes(12).toString("base64url");
-const dayOf = (d: Date) => istDay(d);
+const dayOf = (d: Date) => (istDay(d) < istDay() ? istDay(d) : istDay(new Date(Date.now() - 864e5)));
 
 export async function resetDemoData() {
   // 1. Remove everything that belongs to the demo world (cascades to matches, messages, plans...)

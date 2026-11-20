@@ -20,6 +20,7 @@ export function TabBar({ dot }: { dot?: boolean }) {
             <li key={t.href}>
               <Link
                 href={t.href}
+                prefetch // load the other tabs in the background so tapping them feels instant
                 aria-current={active ? "page" : undefined}
                 className={`relative flex flex-col items-center gap-0.5 py-2.5 text-xs ${active ? "font-bold text-ink" : "text-dusk"}`}
               >

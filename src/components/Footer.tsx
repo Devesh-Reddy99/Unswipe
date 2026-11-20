@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
+import { TAGLINE } from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -7,6 +8,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <Logo light />
+          <p className="mt-2 font-bold text-marigold">{TAGLINE}</p>
           <p className="mt-3 max-w-sm text-paper/70">
             From the eLitmus family. A separate product with separate data: nothing you do here is ever shared with
             employers or used in hiring.

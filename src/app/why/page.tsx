@@ -1,18 +1,26 @@
 import { DocPage, Block } from "@/components/DocPage";
 
-export const metadata = { title: "Why we built it this way · Offline" };
+export const metadata = { title: "Why we built it this way · Unswipe" };
 
 export default function Why() {
   return (
     <DocPage
       title="Why we built it this way"
-      intro="Every feature in Offline answers a specific problem. Here are the decisions, the reasons, and what we chose not to build."
+      intro="Every feature in Unswipe answers a specific problem. Here are the decisions, the reasons, and what we chose not to build."
     >
       <Block title="The bet">
         <p>
-          Dating apps make money when you keep swiping, so the product never has a reason to get you off it. Offline makes money when a
+          Dating apps make money when you keep swiping, so the product never has a reason to get you off it. Unswipe makes money when a
           date actually happens, from the café that hosts it. That lines our incentive up with yours. Our north-star metric is
           <b> good first dates per week</b>: you both turned up, and at least one of you wants to meet again.
+        </p>
+      </Block>
+      <Block title="Why the name">
+        <p>
+          <b>Unswipe</b> says the idea in one word: stop swiping, go meet someone. It is English, so it works in every city
+          we launch in, and it has one spelling, so it is easy to search. The tagline, <i>Less scroll, more stroll</i>,
+          describes what we want people to do: put the phone down and go for a walk or a coffee with someone real. For
+          posters and social media we use a lighter line: <i>Touch grass, together</i>.
         </p>
       </Block>
       <Block title="Why eLitmus can win this">
@@ -35,13 +43,24 @@ export default function Why() {
           <li><b>Socials with equal seats.</b> They solve the cold start in a new city and suit people who'd rather meet in a group first.</li>
         </ul>
       </Block>
-      <Block title="How Offline makes money (users mostly pay nothing)">
+      <Block title="How Unswipe makes money (users mostly pay nothing)">
         <ul>
           <li><b>Venues pay per confirmed date</b> (₹50–150). They get weekday footfall from a salaried audience; our members get a perk.</li>
           <li><b>Socials tickets</b> (₹299–449). People already pay for events.</li>
-          <li><b>Offline Plus</b> (₹199/month): convenience only (travel mode, longer windows, full compatibility breakdown). It never buys visibility.</li>
+          <li><b>Unswipe Plus</b> (₹199/month): convenience only (travel mode, longer windows, full compatibility breakdown). It never buys visibility.</li>
           <li><b>Later:</b> an experiences marketplace (pottery for two, treks) on commission.</li>
         </ul>
+      </Block>
+      <Block title="Others doing something similar">
+        <p>
+          Meeting sooner instead of swiping forever is a real trend. Breeze in the Netherlands sets the date for you, Leeva
+          suggests a café between two people, SOON in San Francisco pushes members to meet in person first, DateShate in India focuses on
+          off-screen dates, and Bumble announced in 2026 that it is removing swiping.
+        </p>
+        <p>
+          What none of them combine: only eLitmus-verified graduates, fair exposure with no paid visibility, a 72-hour plan
+          window with private check-ins, venues paying instead of users, and privacy built for India&apos;s data protection law.
+        </p>
       </Block>
       <Block title="What we chose not to build">
         <ul>

@@ -1,6 +1,6 @@
 {
-  "name": "Offline: dates, not swipes",
-  "short_name": "Offline",
+  "name": "Unswipe: less scroll, more stroll",
+  "short_name": "Unswipe",
   "start_url": "/app/today",
   "display": "standalone",
   "background_color": "#F6F4FA",

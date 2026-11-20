@@ -2,6 +2,7 @@ import { and, asc, eq, gt, sql } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { requireUser } from "@/lib/auth";
 import { fmtDateTime } from "@/lib/time";
+import { FUN_TAGLINE } from "@/lib/constants";
 import { BookButton } from "@/components/BookButton";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +26,7 @@ export default async function Events() {
   return (
     <main className="px-5">
       <h1 className="text-3xl font-extrabold">Socials</h1>
+      <p className="display mt-1 text-lg font-bold text-marigold-deep">{FUN_TAGLINE}</p>
       <p className="mt-1 text-dusk">
         Small, balanced get-togethers in {me.city}: equal seats for women and men, a host, and something to do. A low-pressure
         way to meet people before a one-on-one.

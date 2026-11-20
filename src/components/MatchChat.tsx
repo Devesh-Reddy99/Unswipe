@@ -48,7 +48,7 @@ export function MatchChat({
           router.refresh();
         }
       } catch {
-        /* offline for a moment; try again next tick */
+        /* network hiccup; try again next tick */
       }
     };
     const id = setInterval(tick, 3000);

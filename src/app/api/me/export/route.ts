@@ -17,7 +17,7 @@ export async function GET() {
   const body = JSON.stringify(
     {
       exportedAt: new Date().toISOString(),
-      note: "Your Offline data. We store a hash of your eLitmus ID (not the ID itself) and never your test scores.",
+      note: "Your Unswipe data. We store a hash of your eLitmus ID (not the ID itself) and never your test scores.",
       account,
       profile,
       intros,
@@ -31,6 +31,6 @@ export async function GET() {
     2,
   );
   return new Response(body, {
-    headers: { "Content-Type": "application/json", "Content-Disposition": `attachment; filename="offline-my-data.json"` },
+    headers: { "Content-Type": "application/json", "Content-Disposition": `attachment; filename="unswipe-my-data.json"` },
   });
 }

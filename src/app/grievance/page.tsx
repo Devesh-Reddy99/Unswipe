@@ -1,7 +1,7 @@
 import { DocPage, Block } from "@/components/DocPage";
 import { GrievanceForm } from "@/components/GrievanceForm";
 
-export const metadata = { title: "Grievance officer · Offline" };
+export const metadata = { title: "Grievance officer · Unswipe" };
 
 export default function Grievance() {
   return (
@@ -11,9 +11,9 @@ export default function Grievance() {
     >
       <Block title="Contact">
         <p>
-          Grievance Officer, Offline
+          Grievance Officer, Unswipe
           <br />
-          Email: grievance@offline.example
+          Email: grievance@unswipe.example
           <br />
           Address: Bengaluru, Karnataka, India
         </p>

@@ -16,7 +16,7 @@ export function VerifyForm() {
       <div>
         <label className="label" htmlFor="gradYear">Graduation year</label>
         <select id="gradYear" name="gradYear" required className="field max-w-xs" defaultValue="2022">
-          {[2019, 2020, 2021, 2022, 2023, 2024, 2025].map((y) => (
+          {[2020, 2021, 2022, 2023].map((y) => (
             <option key={y}>{y}</option>
           ))}
         </select>
@@ -36,7 +36,7 @@ export function ConsentForm() {
     <form action={action} className="grid gap-4">
       <Check name="adult">I am 18 or older.</Check>
       <Check name="processing">
-        I agree that Offline can use my profile, answers, messages and date check-ins to suggest matches, run dates and
+        I agree that Unswipe can use my profile, answers, messages and date check-ins to suggest matches, run dates and
         keep members safe, as explained in the{" "}
         <Link href="/privacy" target="_blank" className="underline">privacy notice</Link>.
       </Check>

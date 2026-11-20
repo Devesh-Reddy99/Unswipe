@@ -1,7 +1,8 @@
 // Product rules live here so they are easy to find, explain and tune.
 
-export const APP_NAME = "Offline";
-export const TAGLINE = "Dates, not swipes.";
+export const APP_NAME = "Unswipe";
+export const TAGLINE = "Less scroll, more stroll.";
+export const FUN_TAGLINE = "Touch grass, together.";
 
 export const INTROS_PER_DAY = 5; // small, considered batch instead of an endless deck
 export const EXPOSURE_CAP = 6; // max other people's batches one profile can appear in per day

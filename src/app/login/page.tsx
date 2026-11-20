@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AuthShell } from "@/components/AuthShell";
 import { LoginForm, DemoLogin } from "@/components/AuthForms";
 
-export const metadata = { title: "Sign in · Offline" };
+export const metadata = { title: "Sign in · Unswipe" };
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ demo?: string }> }) {
   const { demo } = await searchParams;
@@ -17,9 +17,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             automatically so you can try every step on your own.
           </p>
           <div className="mt-5 grid gap-2.5">
-            <DemoLogin email="aarav@offline.test" password="offline123" label="Aarav, 25" sub="Man, Bengaluru" />
-            <DemoLogin email="diya@offline.test" password="offline123" label="Diya, 24" sub="Woman, Bengaluru" />
-            <DemoLogin email="admin@offline.test" password="admin123" label="Ops & moderation" sub="Admin" />
+            <DemoLogin email="aarav@unswipe.test" password="unswipe123" label="Aarav, 25" sub="Man, Bengaluru" />
+            <DemoLogin email="diya@unswipe.test" password="unswipe123" label="Diya, 24" sub="Woman, Bengaluru" />
           </div>
           <p className="hint mt-4">Aarav and Diya have a date with each other. Sign in as both in two browsers to see both sides.</p>
         </div>
@@ -30,6 +29,12 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         New here?{" "}
         <Link href="/signup" className="font-bold text-ink underline">
           Create a profile
+        </Link>
+      </p>
+      <p className="mt-2 text-sm text-dusk">
+        Unswipe team?{" "}
+        <Link href="/admin/login" className="underline">
+          Admin sign-in
         </Link>
       </p>
     </AuthShell>

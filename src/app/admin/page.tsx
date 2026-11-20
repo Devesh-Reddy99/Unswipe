@@ -10,7 +10,7 @@ import { fmtDateTime } from "@/lib/time";
 import { PLUS_PRICE_INR } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Admin · Offline" };
+export const metadata = { title: "Admin · Unswipe" };
 
 const n = (v: unknown) => Number(v ?? 0);
 const inr = (v: number) => "₹" + v.toLocaleString("en-IN");

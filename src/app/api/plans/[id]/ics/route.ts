@@ -19,15 +19,15 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Offline//Dates//EN",
+    "PRODID:-//Unswipe//Dates//EN",
     "BEGIN:VEVENT",
-    `UID:${plan.id}@offline`,
+    `UID:${plan.id}@unswipe`,
     `DTSTAMP:${fmt(new Date())}`,
     `DTSTART:${fmt(plan.chosenSlot)}`,
     `DTEND:${fmt(end)}`,
     `SUMMARY:Date with ${other.name}`,
     `LOCATION:${venue.name}\\, ${venue.area}\\, ${venue.city}`,
-    "DESCRIPTION:Planned on Offline. Can't make it? Cancel in the app so they know.",
+    "DESCRIPTION:Planned on Unswipe. Can't make it? Cancel in the app so they know.",
     "BEGIN:VALARM",
     "TRIGGER:-PT2H",
     "ACTION:DISPLAY",
@@ -37,6 +37,6 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
     "END:VCALENDAR",
   ].join("\r\n");
   return new Response(ics, {
-    headers: { "Content-Type": "text/calendar; charset=utf-8", "Content-Disposition": `attachment; filename="offline-date.ics"` },
+    headers: { "Content-Type": "text/calendar; charset=utf-8", "Content-Disposition": `attachment; filename="unswipe-date.ics"` },
   });
 }

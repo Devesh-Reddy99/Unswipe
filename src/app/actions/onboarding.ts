@@ -21,7 +21,7 @@ async function me() {
  * Demo: any 7-digit candidate id is accepted. */
 const verifySchema = z.object({
   elitmusId: z.string().trim().regex(/^\d{7}$/, "Your eLitmus candidate ID has 7 digits"),
-  gradYear: z.coerce.number().int().min(2019).max(2025),
+  gradYear: z.coerce.number().int().min(2020, "Unswipe is open to 2020–2023 graduates for now").max(2023, "Unswipe is open to 2020–2023 graduates for now"),
 });
 
 export async function verifyElitmus(_: FormState, form: FormData): Promise<FormState> {
@@ -33,7 +33,7 @@ export async function verifyElitmus(_: FormState, form: FormData): Promise<FormS
     .select({ id: schema.users.id })
     .from(schema.users)
     .where(and(eq(schema.users.elitmusHash, hash), ne(schema.users.id, user.id)));
-  if (taken) return { error: "This eLitmus account is already linked to another Offline profile. One person, one profile." };
+  if (taken) return { error: "This eLitmus account is already linked to another Unswipe profile. One person, one profile." };
   await db
     .update(schema.users)
     .set({ elitmusHash: hash, elitmusVerified: true, gradYear: parsed.data.gradYear, onboardingStep: "consent" })
@@ -96,7 +96,7 @@ export async function saveProfile(_: FormState, form: FormData): Promise<FormSta
   const parsed = profileSchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues[0].message };
   const p = parsed.data;
-  if (ageFrom(p.birthDate) < 18) return { error: "Offline is only for adults (18+)." };
+  if (ageFrom(p.birthDate) < 18) return { error: "Unswipe is only for adults (18+)." };
   if (ageFrom(p.birthDate) > 60) return { error: "Please check your date of birth." };
   if (p.photo && !p.photo.startsWith("data:image/jpeg;base64,")) return { error: "Photo must be a JPEG image." };
 

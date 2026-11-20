@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { DocPage, Block } from "@/components/DocPage";
 
-export const metadata = { title: "Safety centre · Offline" };
+export const metadata = { title: "Safety centre · Unswipe" };
 
 export default function Safety() {
   return (
     <DocPage title="Safety centre" intro="Safety isn't a settings page here. It is built into how matching and dates work.">
-      <Block title="What Offline does for you">
+      <Block title="What Unswipe does for you">
         <ul>
           <li><b>Everyone is identity-verified</b> through eLitmus. One person, one profile, so banned people can't simply come back.</li>
-          <li><b>Contact details stay hidden</b> until a date is confirmed. Scammers try to move you to WhatsApp fast; on Offline they can't.</li>
+          <li><b>Contact details stay hidden</b> until a date is confirmed. Scammers try to move you to WhatsApp fast; on Unswipe they can't.</li>
           <li><b>Public, partner venues</b> are suggested first for first dates.</li>
           <li><b>Share with a friend:</b> one tap sends who, where and when to someone you trust.</li>
           <li><b>Hide me from my company</b> is on by default.</li>

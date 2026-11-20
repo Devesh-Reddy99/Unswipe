@@ -34,7 +34,7 @@ export function Planner({
     <form action={action} className="panel grid gap-6 p-5">
       <fieldset>
         <legend className="display text-xl font-bold">1. Pick a place</legend>
-        <p className="hint mt-1">Partner places give Offline dates a perk. Places near you or {otherName} are listed first.</p>
+        <p className="hint mt-1">Partner places give Unswipe dates a perk. Places near you or {otherName} are listed first.</p>
         <div className="mt-3 grid gap-2">
           {venues.map((v) => (
             <label key={v.id} className="flex cursor-pointer gap-3 rounded-xl border border-mist bg-white p-3 has-[:checked]:border-ink has-[:checked]:ring-1 has-[:checked]:ring-ink">

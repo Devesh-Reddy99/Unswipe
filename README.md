@@ -1,4 +1,4 @@
-# Offline: dates, not swipes
+# Unswipe: less scroll, more stroll
 
 A dating app for verified early-career graduates (the eLitmus 2020–2023 batches). Instead of an endless swipe deck, you get **5 well-matched intros a day**. When interest is mutual you have **72 hours to agree on a real date** at a partner café, and afterwards you check in privately on how it went.
 
@@ -9,11 +9,11 @@ A dating app for verified early-career graduates (the eLitmus 2020–2023 batche
 
 | Account | Email | Password | What you'll see |
 |---|---|---|---|
-| Aarav (man, Bengaluru) | `aarav@offline.test` | `offline123` | Daily intros, a date suggestion to accept, a confirmed date with Diya, a past date to review, an expired match |
-| Diya (woman, Bengaluru) | `diya@offline.test` | `offline123` | The other side of the date with Aarav, plus her own matches |
-| Admin | `admin@offline.test` | `admin123` | North-star metric, funnel, revenue, venue billing, moderation queue, grievances, waitlist |
+| Aarav (man, Bengaluru) | `aarav@unswipe.test` | `unswipe123` | Daily intros, a date suggestion to accept, a confirmed date with Diya, a past date to review, an expired match |
+| Diya (woman, Bengaluru) | `diya@unswipe.test` | `unswipe123` | The other side of the date with Aarav, plus her own matches |
+| Admin (sign in at **/admin/login**) | `admin@unswipe.test` | `admin123` | North-star metric, funnel, revenue, venue billing, moderation queue, grievances, waitlist |
 
-The login page has one-click buttons for these accounts. You can also **sign up as a new user**: any 7-digit number works as the eLitmus ID in this demo.
+The member login page (`/login`) has one-click buttons for Aarav and Diya; the team sign-in page (`/admin/login`) has one for the admin. Each page refuses the other kind of account. You can also **sign up as a new user**: any 7-digit number works as the eLitmus ID in this demo.
 
 **Demo personas.** Seeded profiles are marked "Demo persona". They reply on their own, so one person can try the whole loop alone: match → chat → plan → date → check-in. On a confirmed date there is a "Skip to after the date" demo control so you can try the post-date check-in without waiting.
 
@@ -38,7 +38,7 @@ The shared demo world resets every night at 3:30 AM IST (Vercel Cron), or from t
   - "Felt unsafe" creates an urgent report.
   - When both people say "meet again", a second date is unlocked.
 - **Socials** with equal seats for women and men, plus a demo checkout.
-- **Offline Plus** (convenience only, never visibility). In the demo it's a toggle; no money is charged.
+- **Unswipe Plus** (convenience only, never visibility). In the demo it's a toggle; no money is charged.
 - **Admin:**
   - KPIs and funnel.
   - Venue billing.
@@ -80,8 +80,8 @@ docs/PRODUCT.md   product thinking: problem, decisions, monetisation, GTM, legal
 Requirements: Node.js 20+ and a PostgreSQL database (local, or a free Neon project).
 
 ```bash
-git clone https://github.com/Devesh-Reddy99/offline-dating-app.git
-cd offline-dating-app
+git clone https://github.com/Devesh-Reddy99/unswipe.git
+cd unswipe
 npm install
 cp .env.example .env            # then set DATABASE_URL
 npm run db:migrate              # creates tables and seeds demo data

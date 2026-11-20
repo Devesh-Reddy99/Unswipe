@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { DocPage, Block } from "@/components/DocPage";
 
-export const metadata = { title: "Privacy notice · Offline" };
+export const metadata = { title: "Privacy notice · Unswipe" };
 
 export default function Privacy() {
   return (
@@ -11,7 +11,7 @@ export default function Privacy() {
       updated="November 2026 (version 2026-11-v1)"
     >
       <Block title="Who we are">
-        <p>Offline is a dating service from the eLitmus family. It is run separately from eLitmus's hiring products, with its own database. In DPDP terms, Offline is the "Data Fiduciary" for your dating data.</p>
+        <p>Unswipe is a dating service from the eLitmus family. It is run separately from eLitmus's hiring products, with its own database. In DPDP terms, Unswipe is the "Data Fiduciary" for your dating data.</p>
       </Block>
       <Block title="What we collect, and why">
         <ul>
@@ -55,7 +55,7 @@ export default function Privacy() {
         <p>Passwords are hashed (bcrypt). Session tokens are stored only as hashes. Photos are re-encoded in your browser, which removes hidden location data (EXIF). Data is encrypted in transit (HTTPS). In a breach we will tell affected members and the Data Protection Board without delay.</p>
       </Block>
       <Block title="Age">
-        <p>Offline is only for adults (18+). We don't knowingly process children's data.</p>
+        <p>Unswipe is only for adults (18+). We don't knowingly process children's data.</p>
       </Block>
     </DocPage>
   );

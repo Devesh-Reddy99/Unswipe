@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 
-const COOKIE = "offline_session";
+const COOKIE = "unswipe_session";
 const SESSION_DAYS = 30;
 
 const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
@@ -62,7 +62,7 @@ export async function requireUser() {
 
 export async function requireAdmin() {
   const user = await getCurrentUser();
-  if (!user) redirect("/login");
+  if (!user) redirect("/admin/login");
   if (user.role !== "admin") redirect("/app/today");
   return user;
 }

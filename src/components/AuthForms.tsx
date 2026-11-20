@@ -3,10 +3,11 @@ import { useActionState } from "react";
 import { login, signup } from "@/app/actions/auth";
 import { SubmitButton } from "./SubmitButton";
 
-export function LoginForm() {
+export function LoginForm({ portal = "member" }: { portal?: "member" | "admin" }) {
   const [state, action] = useActionState(login, undefined);
   return (
     <form action={action} className="grid gap-4">
+      <input type="hidden" name="portal" value={portal} />
       <div>
         <label className="label" htmlFor="email">Email</label>
         <input id="email" name="email" type="email" autoComplete="email" required className="field" />
@@ -21,10 +22,23 @@ export function LoginForm() {
   );
 }
 
-export function DemoLogin({ email, password, label, sub }: { email: string; password: string; label: string; sub: string }) {
+export function DemoLogin({
+  email,
+  password,
+  label,
+  sub,
+  portal = "member",
+}: {
+  email: string;
+  password: string;
+  label: string;
+  sub: string;
+  portal?: "member" | "admin";
+}) {
   const [state, action] = useActionState(login, undefined);
   return (
     <form action={action}>
+      <input type="hidden" name="portal" value={portal} />
       <input type="hidden" name="email" value={email} />
       <input type="hidden" name="password" value={password} />
       <SubmitButton className="btn-ghost w-full justify-between rounded-xl text-left" pendingText="Signing in…">

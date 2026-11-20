@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import bcrypt from "bcryptjs";
-import { and, inArray, like, or, eq } from "drizzle-orm";
+import { and, inArray, like, ne, or, eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { compatibility } from "./compat";
 import { QUESTIONS, AREAS, CITIES } from "./constants";
@@ -27,7 +27,7 @@ function rng(seed: number) {
 
 const VENUES: (typeof schema.venues.$inferInsert)[] = [
   // Bengaluru
-  { id: "blr-brewhouse-indiranagar", name: "Kaapi Corner", city: "Bengaluru", area: "Indiranagar", kind: "cafe", priceForTwo: 600, perk: "15% off for Offline dates", blurb: "Quiet corner tables, good filter coffee.", cpaInr: 75 },
+  { id: "blr-brewhouse-indiranagar", name: "Kaapi Corner", city: "Bengaluru", area: "Indiranagar", kind: "cafe", priceForTwo: 600, perk: "15% off for Unswipe dates", blurb: "Quiet corner tables, good filter coffee.", cpaInr: 75 },
   { id: "blr-bookcafe-koramangala", name: "Chapter & Chai", city: "Bengaluru", area: "Koramangala", kind: "cafe", priceForTwo: 450, perk: "Free cookie for two", blurb: "A bookshop café. Easy to talk, easy to leave.", cpaInr: 60 },
   { id: "blr-lake-hsr", name: "Agara Lake Loop", city: "Bengaluru", area: "HSR Layout", kind: "walk", priceForTwo: 0, perk: null, blurb: "A 3 km evening walk around the lake. Busy and well lit.", isPartner: false, cpaInr: 0 },
   { id: "blr-pottery-jayanagar", name: "Clay Studio", city: "Bengaluru", area: "Jayanagar", kind: "activity", priceForTwo: 1400, perk: "₹200 off the couples class", blurb: "A 90-minute pottery class for two. Hands busy, conversation easy.", cpaInr: 150 },
@@ -90,15 +90,18 @@ function prompts(r: () => number): Prompt[] {
 const hoursAgo = (h: number) => new Date(Date.now() - h * 36e5);
 const hoursFromNow = (h: number) => new Date(Date.now() + h * 36e5);
 const token = () => randomBytes(12).toString("base64url");
+// Seeded history always counts as an earlier day, so it never blocks today's fresh batch of intros
 const dayOf = (d: Date) => (istDay(d) < istDay() ? istDay(d) : istDay(new Date(Date.now() - 864e5)));
 
 export async function resetDemoData() {
   // 1. Remove everything that belongs to the demo world (cascades to matches, messages, plans...)
   // (the admin account is kept, so an admin pressing "reset" stays signed in)
-  await db.delete(schema.users).where(or(and(eq(schema.users.isDemo, true), eq(schema.users.role, "user")), eq(schema.users.isPersona, true)));
+  // Keeps only the current admin, so an admin pressing "reset" stays signed in. Older demo accounts are removed.
+  await db.delete(schema.users).where(or(and(eq(schema.users.isDemo, true), ne(schema.users.email, "admin@unswipe.test")), eq(schema.users.isPersona, true)));
   await db.delete(schema.events);
-  await db.delete(schema.grievances).where(like(schema.grievances.email, "%@seed.offline.test"));
-  await db.delete(schema.waitlist).where(like(schema.waitlist.email, "%@seed.offline.test"));
+  // Seeded example rows all use an "@seed." email, so they can be told apart from real ones
+  await db.delete(schema.grievances).where(like(schema.grievances.email, "%@seed.%"));
+  await db.delete(schema.waitlist).where(like(schema.waitlist.email, "%@seed.%"));
 
   // 2. Venues are upserted (stable ids), so plans made by real accounts keep working
   for (const v of VENUES) {
@@ -107,7 +110,7 @@ export async function resetDemoData() {
 
   const r = rng(20261117);
   const lockedHash = await bcrypt.hash(randomBytes(24).toString("hex"), 8); // personas can never sign in
-  const demoHash = await bcrypt.hash("offline123", 10);
+  const demoHash = await bcrypt.hash("unswipe123", 10);
   const adminHash = await bcrypt.hash("admin123", 10);
 
   // 3. Personas: spread across the three live cities
@@ -121,7 +124,7 @@ export async function resetDemoData() {
       const woman = i < nw;
       const name = woman ? WOMEN[wi++ % WOMEN.length] : MEN[mi++ % MEN.length];
       personas.push({
-        email: `${name.toLowerCase()}.${city.slice(0, 3).toLowerCase()}${i}@persona.offline.test`,
+        email: `${name.toLowerCase()}.${city.slice(0, 3).toLowerCase()}${i}@persona.unswipe.test`,
         userId: "",
         name,
         birthDate: birth(r),
@@ -149,7 +152,7 @@ export async function resetDemoData() {
   // Two non-binary members in Bengaluru, open to everyone
   for (const name of NONBINARY) {
     personas.push({
-      email: `${name.toLowerCase()}@persona.offline.test`, userId: "", name, birthDate: birth(r), gender: "nonbinary",
+      email: `${name.toLowerCase()}@persona.unswipe.test`, userId: "", name, birthDate: birth(r), gender: "nonbinary",
       interestedIn: ["woman", "man", "nonbinary"], city: "Bengaluru", area: pick(r, AREAS.Bengaluru), company: pick(r, COMPANIES),
       jobTitle: pick(r, JOBS), gradYear: 2021, hideFromCompany: true, intent: "long_term", about: "", prompts: prompts(r),
       dateStyles: ["coffee", "activity"], availability: ["sat", "sun"], languages: ["English", "Hindi"], answers: answers(r),
@@ -180,13 +183,13 @@ export async function resetDemoData() {
   // 4. Shared demo accounts
   await db
     .insert(schema.users)
-    .values({ email: "admin@offline.test", passwordHash: adminHash, role: "admin", onboardingStep: "done", isDemo: true })
+    .values({ email: "admin@unswipe.test", passwordHash: adminHash, role: "admin", onboardingStep: "done", isDemo: true })
     .onConflictDoUpdate({ target: schema.users.email, set: { passwordHash: adminHash, role: "admin", status: "active" } });
   const [aaravU, diyaU] = await db
     .insert(schema.users)
     .values([
-      { email: "aarav@offline.test", passwordHash: demoHash, onboardingStep: "done", elitmusVerified: true, gradYear: 2022, workEmail: "aarav@kestrel.example", workEmailVerified: true, consentVersion: "2026-11-v1", consentAt: hoursAgo(24 * 9), isDemo: true, createdAt: hoursAgo(24 * 9) },
-      { email: "diya@offline.test", passwordHash: demoHash, onboardingStep: "done", elitmusVerified: true, gradYear: 2023, consentVersion: "2026-11-v1", consentAt: hoursAgo(24 * 7), isDemo: true, createdAt: hoursAgo(24 * 7) },
+      { email: "aarav@unswipe.test", passwordHash: demoHash, onboardingStep: "done", elitmusVerified: true, gradYear: 2022, workEmail: "aarav@kestrel.example", workEmailVerified: true, consentVersion: "2026-11-v1", consentAt: hoursAgo(24 * 9), isDemo: true, createdAt: hoursAgo(24 * 9) },
+      { email: "diya@unswipe.test", passwordHash: demoHash, onboardingStep: "done", elitmusVerified: true, gradYear: 2023, consentVersion: "2026-11-v1", consentAt: hoursAgo(24 * 7), isDemo: true, createdAt: hoursAgo(24 * 7) },
     ])
     .returning();
 
@@ -369,9 +372,9 @@ export async function resetDemoData() {
     { reporterId: sneha, reportedId: sameer, reason: "Asked for money or investments", details: "Kept talking about a crypto 'opportunity' and asked me to download an app.", priority: "urgent", createdAt: hoursAgo(5) },
     { reporterId: pooja, reportedId: nikhil, reason: "Didn't turn up (no-show)", details: "Waited 40 minutes, no message.", priority: "normal", createdAt: hoursAgo(20) },
   ]);
-  await db.insert(schema.grievances).values({ email: "user1@seed.offline.test", subject: "Please remove my old photo", body: "I deleted a photo but want confirmation it is gone from your servers too.", createdAt: hoursAgo(14) });
+  await db.insert(schema.grievances).values({ email: "user1@seed.unswipe.test", subject: "Please remove my old photo", body: "I deleted a photo but want confirmation it is gone from your servers too.", createdAt: hoursAgo(14) });
   const wl: [string, string, number][] = [["Chennai", "woman", 34], ["Chennai", "man", 61], ["Gurugram", "woman", 22], ["Gurugram", "man", 48], ["Mumbai", "woman", 18], ["Mumbai", "man", 27]];
-  const rows = wl.flatMap(([city, gender, n]) => Array.from({ length: n }, (_, i) => ({ email: `${city.toLowerCase()}.${gender}.${i}@seed.offline.test`, city, gender, createdAt: hoursAgo(r() * 24 * 20) })));
+  const rows = wl.flatMap(([city, gender, n]) => Array.from({ length: n }, (_, i) => ({ email: `${city.toLowerCase()}.${gender}.${i}@seed.unswipe.test`, city, gender, createdAt: hoursAgo(r() * 24 * 20) })));
   await db.insert(schema.waitlist).values(rows).onConflictDoNothing();
 
   return { personas: personas.length, demo: 3 };
@@ -379,7 +382,7 @@ export async function resetDemoData() {
 
 /** Used by the migration script: only seed an empty database. */
 export async function seedIfEmpty() {
-  const rows = await db.select({ id: schema.users.id }).from(schema.users).where(inArray(schema.users.email, ["admin@offline.test"])).limit(1);
+  const rows = await db.select({ id: schema.users.id }).from(schema.users).where(inArray(schema.users.email, ["admin@unswipe.test"])).limit(1);
   if (rows.length) return false;
   await resetDemoData();
   return true;

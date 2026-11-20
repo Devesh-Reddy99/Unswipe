@@ -6,6 +6,7 @@ import { WaitlistForm } from "@/components/WaitlistForm";
 import { Avatar } from "@/components/Avatar";
 import { VerifiedBadge } from "@/components/Badges";
 import { istAt, istWeekday } from "@/lib/time";
+import { TAGLINE } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ export default function Landing() {
         <Logo />
         <nav className="flex items-center gap-2">
           <Link href="/why" className="hidden px-3 py-2 font-bold text-dusk hover:text-ink sm:block">
-            Why Offline
+            Why Unswipe
           </Link>
           <Link href="/login" className="btn-ghost">
             Sign in
@@ -33,13 +34,14 @@ export default function Landing() {
         <section className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-6 md:grid-cols-[1.15fr_1fr] md:pt-12">
           <div>
             <VerifiedBadge label="Every member verified by eLitmus" />
-            <h1 className="mt-5 text-[2.75rem] font-extrabold leading-[1.02] sm:text-6xl">
+            <p className="display mt-5 text-xl font-bold text-marigold-deep">{TAGLINE}</p>
+            <h1 className="mt-2 text-[2.75rem] font-extrabold leading-[1.02] sm:text-6xl">
               Five people a day.
               <br />
               One real date.
             </h1>
             <p className="mt-5 max-w-[34rem] text-lg text-dusk">
-              Offline is a dating app for 2020–2023 graduates. There is no swiping and no endless chat. You get a few
+              Unswipe is a dating app for 2020–2023 graduates. There is no swiping and no endless chat. You get a few
               well-matched intros each day, agree on a date within 72 hours, and meet at a café near you.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -64,7 +66,7 @@ export default function Landing() {
               venue="Kaapi Corner"
               area="12th Main, Indiranagar"
               names="Aarav & Diya"
-              perk="15% off for Offline dates"
+              perk="15% off for Unswipe dates"
               reason="You both love outdoor Sundays and want something long-term."
             />
           </div>

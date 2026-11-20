@@ -1,8 +1,11 @@
-# Offline — product thinking
+# Unswipe — product thinking
 
 > One line: **a dating app for verified early-career graduates that measures success by real first dates, not swipes.**
 
 This document explains *why* the product is built the way it is. Every feature below exists because of a specific problem.
+
+**Name:** Unswipe. **Tagline:** *Less scroll, more stroll.* **Marketing line:** *Touch grass, together.*
+The name says the idea in one word (stop swiping, go meet someone), works in English across every launch city, and has one spelling, so it is easy to search.
 
 ---
 
@@ -18,11 +21,11 @@ This document explains *why* the product is built the way it is. Every feature b
 
 ## 2. Why eLitmus can win this (our unfair advantages)
 
-1. **Verified identity at scale.** More than 1M graduates (2020–23) took a proctored test with ID checks. Every member of Offline is a real, identity-checked person. Fake profiles are the #1 complaint, and this removes them almost for free.
+1. **Verified identity at scale.** More than 1M graduates (2020–23) took a proctored test with ID checks. Every member of Unswipe is a real, identity-checked person. Fake profiles are the #1 complaint, and this removes them almost for free.
 2. **A known audience.** They are early-career, mostly in IT, and recently moved to Bengaluru, Hyderabad, Pune, Chennai or NCR for work. New city, new job, small social circle.
 3. **Distribution.** We can reach these users through eLitmus email and dashboard at near-zero cost, so we don't pay app-store ad prices.
 
-**Things we deliberately do NOT use:** test scores, percentiles or any hiring data. That data was collected for hiring. Under India's DPDP Act it can't be reused for dating without a fresh, specific consent, and using it would be creepy anyway. Offline only receives a *yes/no "verified"* flag and the graduation year, and only after the user gives separate consent. Employers never see dating data.
+**Things we deliberately do NOT use:** test scores, percentiles or any hiring data. That data was collected for hiring. Under India's DPDP Act it can't be reused for dating without a fresh, specific consent, and using it would be creepy anyway. Unswipe only receives a *yes/no "verified"* flag and the graduation year, and only after the user gives separate consent. Employers never see dating data.
 
 ## 3. The product: "Dates, not swipes"
 
@@ -49,7 +52,7 @@ North-star metric: **good first dates per week**. A good first date means both p
 
 1. **Venue partners (main stream).** Cafés and activity venues pay a fee per *confirmed* date booked at their venue (₹75 in this model). They get weekday footfall from a high-intent, salaried audience. In return, our users get a perk (e.g. 15% off). Users pay nothing extra and actually save money.
 2. **Socials tickets.** ₹299–₹449 per seat for small mixers. People already pay for events, and the venue covers the space in exchange for food and drink spending.
-3. **Offline Plus (₹199/month, optional).** Convenience only: Travel mode (get intros in a city before you move there), longer plan windows, a full compatibility breakdown, priority booking for socials. Nothing that affects who sees whom.
+3. **Unswipe Plus (₹199/month, optional).** Convenience only: Travel mode (get intros in a city before you move there), longer plan windows, a full compatibility breakdown, priority booking for socials. Nothing that affects who sees whom.
 4. **Later: experiences marketplace.** Pottery-for-two, workshops and treks, at a 15–20% commission.
 
 The illustrative numbers below are **hypotheses**, not data.
@@ -91,14 +94,37 @@ Total: ~₹3 lakh/month per city before experiences. Costs are low because acqui
   - Acknowledge complaints within 24 hours and resolve within 15 days.
   - Remove intimate or impersonation content within 24 hours of a complaint.
   - In-app report and block.
-- **Brand firewall:** "Offline, from the eLitmus family" is a separate product with separate data. Dating data is never shared with employers or used in hiring. This is stated in the Terms.
+- **Brand firewall:** "Unswipe, from the eLitmus family" is a separate product with separate data. Dating data is never shared with employers or used in hiring. This is stated in the Terms.
 - **Payments** go through a licensed payment gateway (e.g. Razorpay). We never hold user money in a wallet, so there is no RBI wallet licence issue.
 - **Photos and personas in this demo** are illustrated avatars, not real people.
 
-## 7. What we chose NOT to build (and why)
+## 7. Others doing something similar (and how we differ)
+
+The "meet sooner, swipe less" idea is a clear trend, which is a good sign the need is real. Some examples:
+
+| App | What it does | Where Unswipe differs |
+|---|---|---|
+| **Breeze** (Netherlands) | No chatting before the date; you share availability and the app sets the place and time | We keep a short chat (72 h) and let people pick from suggested cafés; built for India |
+| **Leeva** | Pick a café between you; partner venues give couples an offer | Same venue idea, but our members are eLitmus-verified and exposure is capped for fairness |
+| **SOON** (San Francisco) | Members-only dating that pushes people to meet in person first | Our trust comes from verified graduates, not a manual waitlist |
+| **DateShate** (India) | "Off-screen" dating with planned, in-person dates | We add verification, fair exposure, the 72-hour rule and DPDP-first privacy |
+| **Bumble** | Announced in 2026 that it is removing swiping | Confirms the direction; we are built without swiping from day one |
+
+**What nobody else combines:** (1) only eLitmus-verified graduates, (2) fair exposure with no paid visibility, (3) a 72-hour plan window plus private post-date check-ins, (4) venues pay instead of users, (5) built for India (DPDP consent, hide-from-company, gender-balanced city launches).
+
+## 8. What we chose NOT to build (and why)
 
 - **Swipe deck:** it is the cause of the problem.
 - **Paid boosts / "see who liked you" paywall:** pay-to-win breaks fair exposure.
 - **AI chat-reply suggestions:** they make conversations less genuine, and scammers already use AI.
 - **Public profile browsing:** 74% of users want control over who sees them.
 - **A native app on day one:** a PWA (installable web app) is faster to ship and test. Go native once the core loop is proven.
+
+## Sources
+
+- Juleo × YouGov report (2024), via YourStory and others: in-person meetings, fake profiles, profile control
+- Woo survey of 20,000 urban Indians (via Quartz): gender ratio
+- McAfee India (Feb 2026): fake dating apps and scams by age
+- Breeze, The Swift Club, SOON, Leeva, DateShate: app store listings and press (Dazed, Product Hunt, Apple App Store)
+- Bumble removing swiping: Axios / NYT coverage, May 2026
+- DPDP Act 2023 and DPDP Rules 2025; IT (Intermediary Guidelines) Rules 2021

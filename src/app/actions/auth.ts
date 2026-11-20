@@ -32,6 +32,10 @@ export async function login(_: FormState, form: FormData): Promise<FormState> {
   // Same message for "no account" and "wrong password", so emails can't be probed
   if (!user || !(await checkPassword(password, user.passwordHash))) return { error: "Email or password is incorrect." };
   if (user.isPersona) return { error: "This is a demo persona and can't be signed in to." };
+  // Members and the Unswipe team sign in on separate pages
+  const portal = form.get("portal") === "admin" ? "admin" : "member";
+  if (portal === "admin" && user.role !== "admin") return { error: "This sign-in is only for the Unswipe team. Members sign in at /login." };
+  if (portal === "member" && user.role === "admin") return { error: "Team accounts sign in at /admin/login." };
   await createSession(user.id);
   if (user.role === "admin") redirect("/admin");
   redirect(user.onboardingStep === "done" ? "/app/today" : `/onboarding/${user.onboardingStep}`);

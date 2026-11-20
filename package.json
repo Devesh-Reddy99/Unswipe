@@ -1,8 +1,8 @@
 {
-  "name": "offline-dating",
+  "name": "unswipe",
   "version": "1.0.0",
   "private": true,
-  "description": "Offline - a verified, date-first dating app for early-career graduates (eLitmus product assignment)",
+  "description": "Unswipe - a verified, date-first dating app for early-career graduates (eLitmus product assignment)",
   "scripts": {
     "dev": "next dev",
     "build": "tsx scripts/migrate.ts && next build",

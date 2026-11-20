@@ -13,13 +13,27 @@ import { AVAILABILITY } from "./constants";
 
 const REPLY_DELAY_MS = 3000;
 
-const REPLIES = [
-  "Hey {me}! Nice to match 😊 Your answers made me smile. Want to plan something? I'm usually free on {avail}.",
-  "Haha, fair point. Pick a spot you like in the planner and send me a couple of times?",
-  "That sounds lovely. Honestly, I'm tired of chatting for weeks. Meeting is so much easier.",
-  "Ha, I'll tell you that story in person 😄",
-  "Perfect, see you then!",
-];
+// Pre-written replies, picked by where the two people are in the journey,
+// so a persona never says "nice to match" after the date has already happened.
+const REPLIES = {
+  planning: [
+    "Hey {me}! Nice to match 😊 Your answers made me smile. Want to plan something? I'm usually free on {avail}.",
+    "Haha, fair point. Pick a spot you like in the planner and send me a couple of times?",
+    "That sounds lovely. Honestly, I'm tired of chatting for weeks. Meeting is so much easier.",
+    "Ha, I'll tell you that story in person 😄",
+  ],
+  upcoming: [
+    "Looking forward to it! 🙂",
+    "Ha, save that story for the date 😄",
+    "See you there. I'll probably be the one who's early.",
+  ],
+  after: [
+    "That was really fun! Thanks for a lovely time 😊",
+    "Haha, I'm still laughing about that story.",
+    "Same time next week? Your pick this time!",
+  ],
+};
+const ACCEPTED = "Perfect, see you then!";
 
 /** Would this persona be interested back? Simple, predictable rule for demos. */
 export function personaLikesBack(score: number) {
@@ -36,6 +50,18 @@ export async function personaTick(match: Match, meId: string) {
   const [me] = await db.select().from(schema.profiles).where(eq(schema.profiles.userId, meId));
   const [pp] = await db.select().from(schema.profiles).where(eq(schema.profiles.userId, personaId));
 
+  const [plan] = await db
+    .select()
+    .from(schema.datePlans)
+    .where(eq(schema.datePlans.matchId, match.id))
+    .orderBy(desc(schema.datePlans.createdAt))
+    .limit(1);
+  const confirmed = plan?.status === "confirmed" && plan.chosenSlot ? plan.chosenSlot : null;
+  const stage: keyof typeof REPLIES = !confirmed ? "planning" : confirmed.getTime() > now ? "upcoming" : "after";
+  // Replies for this stage restart from the first line once the stage begins
+  const stageStart =
+    stage === "after" ? confirmed!.getTime() : stage === "upcoming" ? (plan!.respondedAt ?? plan!.createdAt).getTime() : 0;
+
   // 1. Reply to an unanswered message after a short delay
   const msgs = await db
     .select()
@@ -45,21 +71,16 @@ export async function personaTick(match: Match, meId: string) {
   const human = msgs.filter((m) => m.senderId);
   const last = human[human.length - 1];
   if (last && last.senderId === meId && now - last.createdAt.getTime() > REPLY_DELAY_MS) {
-    const sent = human.filter((m) => m.senderId === personaId).length;
+    const lines = REPLIES[stage];
+    const sent = human.filter((m) => m.senderId === personaId && m.createdAt.getTime() > stageStart && m.body !== ACCEPTED).length;
     const avail = pp?.availability[0] ? AVAILABILITY[pp.availability[0] as keyof typeof AVAILABILITY].toLowerCase() : "weekends";
-    const body = REPLIES[Math.min(sent, REPLIES.length - 2)]
+    const body = lines[Math.min(sent, lines.length - 1)]
       .replace("{me}", me?.name ?? "there")
       .replace("{avail}", avail);
     await db.insert(schema.messages).values({ matchId: match.id, senderId: personaId, body });
   }
 
   // 2. Accept a date the user proposed (first offered slot)
-  const [plan] = await db
-    .select()
-    .from(schema.datePlans)
-    .where(eq(schema.datePlans.matchId, match.id))
-    .orderBy(desc(schema.datePlans.createdAt))
-    .limit(1);
   if (plan && plan.status === "proposed" && plan.proposerId === meId && now - plan.createdAt.getTime() > REPLY_DELAY_MS) {
     await db
       .update(schema.datePlans)
@@ -67,7 +88,7 @@ export async function personaTick(match: Match, meId: string) {
       .where(eq(schema.datePlans.id, plan.id));
     await db.update(schema.matches).set({ status: "planned" }).where(eq(schema.matches.id, match.id));
     await addSystemNote(match.id, `${pp?.name ?? "They"} accepted. Your date is confirmed! Contact details are now visible in chat.`);
-    await db.insert(schema.messages).values({ matchId: match.id, senderId: personaId, body: REPLIES[4] });
+    await db.insert(schema.messages).values({ matchId: match.id, senderId: personaId, body: ACCEPTED });
   }
 
   // 3. Agree to an extension the user asked for

@@ -13,7 +13,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 /*
- * Data model for Offline.
+ * Data model for Unswipe.
  * Rule of thumb: store only what the product needs (DPDP "data minimisation").
  * We never store eLitmus test scores - only a verified yes/no and graduation year.
  */

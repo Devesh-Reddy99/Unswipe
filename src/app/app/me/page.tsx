@@ -56,8 +56,8 @@ export default async function Me() {
         </div>
       </section>
 
-      <section className="mt-8" aria-label="Offline Plus">
-        <h2 className="text-xl font-bold">Offline Plus</h2>
+      <section className="mt-8" aria-label="Unswipe Plus">
+        <h2 className="text-xl font-bold">Unswipe Plus</h2>
         <p className="mt-1 text-sm text-dusk">
           ₹{PLUS_PRICE_INR}/month. Convenience, never visibility: Travel mode (get intros in a city before you move), 5 days to
           plan instead of 3, your full compatibility breakdown and early booking for socials. Plus never makes you appear in more intros.

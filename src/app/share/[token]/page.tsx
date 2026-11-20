@@ -7,7 +7,7 @@ import { Avatar } from "@/components/Avatar";
 import { otherId } from "@/lib/matches";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "A friend shared their date plan · Offline", robots: { index: false } };
+export const metadata = { title: "A friend shared their date plan · Unswipe", robots: { index: false } };
 
 /*
  * Safety: a link a member sends to a trusted friend.
@@ -25,7 +25,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
     <main className="mx-auto max-w-md px-5 py-8">
       <Logo />
       <h1 className="mt-8 text-3xl font-extrabold">A friend shared their date plan with you</h1>
-      <p className="mt-2 text-dusk">They'd like someone to know where they'll be. Both people are verified Offline members.</p>
+      <p className="mt-2 text-dusk">They'd like someone to know where they'll be. Both people are verified Unswipe members.</p>
       <div className="mt-6 flex gap-4">
         {[a, b].map((p) => (
           <div key={p.userId} className="flex items-center gap-2">
@@ -39,7 +39,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
       </div>
       <div className="mt-6 rounded-2xl bg-leaf-soft p-4 text-sm">
         <p className="font-bold text-leaf">If something feels wrong</p>
-        <p className="mt-1">Call your friend first. In an emergency call 112. To report a member, email safety@offline.example.</p>
+        <p className="mt-1">Call your friend first. In an emergency call 112. To report a member, email safety@unswipe.example.</p>
       </div>
     </main>
   );

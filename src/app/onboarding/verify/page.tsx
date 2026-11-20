@@ -9,7 +9,7 @@ export default async function VerifyPage() {
       <Steps current={0} />
       <h1 className="text-3xl font-extrabold">Link your eLitmus account</h1>
       <p className="mt-3 text-dusk">
-        Every Offline member is a real, identity-checked graduate. That is how we keep out fake profiles.
+        Every Unswipe member is a real, identity-checked graduate. That is how we keep out fake profiles.
       </p>
       <div className="mt-6 grid gap-3 rounded-2xl bg-leaf-soft p-5 text-sm sm:grid-cols-2">
         <div>

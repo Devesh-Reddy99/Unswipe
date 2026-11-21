@@ -2,6 +2,8 @@
 
 A dating app for verified early-career graduates (the eLitmus 2020–2023 batches). Instead of an endless swipe deck, you get **5 well-matched intros a day**. When interest is mutual you have **72 hours to agree on a real date** at a partner café, and afterwards you check in privately on how it went.
 
+**Live app: https://unswipe-app.vercel.app** (demo logins are just below)
+
 > Built for the eLitmus product assignment "Reinvent the Dating App".
 > The reasoning behind every decision is in **[docs/PRODUCT.md](docs/PRODUCT.md)**, and in the app at `/why`.
 
@@ -17,7 +19,9 @@ The member login page (`/login`) has one-click buttons for Aarav and Diya; the t
 
 **Demo personas.** Seeded profiles are marked "Demo persona". They reply on their own, so one person can try the whole loop alone: match → chat → plan → date → check-in. On a confirmed date there is a "Skip to after the date" demo control so you can try the post-date check-in without waiting.
 
-The shared demo world resets every night at 3:30 AM IST (Vercel Cron), or from the admin dashboard. Accounts you create yourself are kept.
+The shared demo world resets every night, around 3:30–4:30 AM IST (Vercel Cron), or from the admin dashboard. Accounts you create yourself are kept.
+
+It runs on free hosting, so the first page after a few idle minutes can take a few seconds while the server and database wake up. After that it is quick.
 
 ## What's in the product
 
@@ -80,8 +84,8 @@ docs/PRODUCT.md   product thinking: problem, decisions, monetisation, GTM, legal
 Requirements: Node.js 20+ and a PostgreSQL database (local, or a free Neon project).
 
 ```bash
-git clone https://github.com/Devesh-Reddy99/unswipe.git
-cd unswipe
+git clone https://github.com/Devesh-Reddy99/Unswipe.git
+cd Unswipe
 npm install
 cp .env.example .env            # then set DATABASE_URL
 npm run db:migrate              # creates tables and seeds demo data
@@ -103,10 +107,33 @@ npm run build        # migrate + production build (what Vercel runs)
 3. Add an environment variable `CRON_SECRET` (any long random string) for the nightly demo reset.
 4. Deploy. The build applies migrations and seeds the demo data on the first run.
 
+## How I tested it
+
+- **Unit tests** (`npm test`) for the core rules: compatibility scoring, fair exposure, contact masking, IST day boundaries and date-slot suggestions.
+- **Full flows by hand** on the live site, on both phone and laptop: sign up and onboarding, intros, matching, chat, planning and accepting a date, the post-date check-in, reporting, data download, account deletion and the admin dashboard.
+- Problems I found this way were fixed in their own pull requests (see below).
+
+## How it was built
+
+| Day | What changed |
+|---|---|
+| 17 Nov | First working version: onboarding, daily intros, matching, chat, date planner, safety features, admin dashboard. Deployed to Vercel with a Neon database. |
+| 18 Nov | Testing the live site showed only 1 intro instead of 5 on the first day and a list overflowing on phones. Fixed both (PR #1). |
+| 20 Nov | Renamed the app to Unswipe, added a separate admin sign-in, limited grad years to 2020–2023, made demo replies match the stage of the date (PR #2). Made switching tabs feel instant after noticing slow taps (PR #3). |
+| 21 Nov | Added the live link to this README and fixed the demo chat naming the wrong day for the date (PR #4). |
+
+## What I'd build next (and why it isn't in this version)
+
+- **Real "Sign in with eLitmus"** instead of the simulated ID check. This needs eLitmus's own login system, so it can only be built with eLitmus.
+- **Reminders on WhatsApp** before the 72-hour window closes and on the day of the date. WhatsApp only allows this for verified businesses and charges per message, so it isn't possible in a demo.
+- **A selfie check** that compares a live photo with the profile photo. It needs a paid face-matching service, and face data is sensitive personal data under the DPDP Act, so it shouldn't be collected in a demo.
+- **A self-serve dashboard for venues** to see bookings and pay their bill. It is a second product for café owners; the admin dashboard already shows what each venue would be billed.
+- **Live chat over websockets** instead of checking every 3 seconds. Free hosting on Vercel doesn't support it, and polling works fine at this size.
+
 ## Disclosures (third-party code and assets)
 
 - **Open-source libraries:** Next.js, React, Drizzle ORM, postgres.js, bcryptjs, Zod, Tailwind CSS. The fonts are Bricolage Grotesque and Hanken Grotesk (SIL Open Font License, via Fontsource). No UI templates or starter projects were used.
-- **AI assistance:** I used an AI coding assistant (Claude) to help write the code, as the assignment allows. The product direction, decisions and trade-offs are mine and are documented in `docs/PRODUCT.md`.
+- **AI assistance:** I took help from an AI coding assistant while building this.
 - **Fictional data:** all demo people, companies and venues are fictional. Avatars are generated illustrations, not photos of real people.
 - **Simulated in this demo:**
   - eLitmus verification (would be "Sign in with eLitmus" / OAuth).

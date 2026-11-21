@@ -253,7 +253,7 @@ export default async function Admin() {
         <h2 className="font-bold">Demo data</h2>
         <p className="mt-1 text-sm text-dusk">
           Resets the shared demo accounts, demo personas, socials and venues to a fresh state. Accounts that evaluators created
-          themselves are kept. This also runs automatically every night at 3:30 AM IST.
+          themselves are kept. This also runs automatically every night, around 3:30–4:30 AM IST.
         </p>
         <form action={resetDemo} className="mt-3">
           <SubmitButton className="btn-ghost" pendingText="Resetting… (takes a few seconds)">Reset demo data now</SubmitButton>

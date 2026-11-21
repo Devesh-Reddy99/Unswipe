@@ -246,15 +246,17 @@ export async function resetDemoData() {
   const vikram = byName("Vikram").userId;
 
   // Aarav <-> Diya: confirmed date in two days (both demo accounts, so both sides can be seen)
+  const adDate = istAt(2, 19, 30);
+  const adDay = new Intl.DateTimeFormat("en-IN", { weekday: "long", timeZone: "Asia/Kolkata" }).format(adDate);
   await introPair(A, D, hoursAgo(40));
   const mAD = await match(A, D, hoursAgo(40), "planned", hoursFromNow(32));
   await say(mAD.id, D, "Hi Aarav! A fellow 'outdoor Sundays' person. Which trek was your last one?", hoursAgo(39));
   await say(mAD.id, A, "Skandagiri, the night trek! Got rained on, zero regrets. You?", hoursAgo(38));
-  await say(mAD.id, D, "Haha, Savandurga. Okay, coffee first and trek stories second? I suggested Thursday.", hoursAgo(37));
+  await say(mAD.id, D, `Haha, Savandurga. Okay, coffee first and trek stories second? I suggested ${adDay}.`, hoursAgo(37));
   await say(mAD.id, null, "Diya suggested a date at Kaapi Corner, Indiranagar.", hoursAgo(37));
-  await db.insert(schema.datePlans).values({ matchId: mAD.id, proposerId: D, venueId: "blr-brewhouse-indiranagar", slots: [istAt(2, 19, 30).toISOString(), istAt(4, 11, 0).toISOString()], chosenSlot: istAt(2, 19, 30), status: "confirmed", note: "I'll be the one with the yellow tote bag", shareToken: token(), createdAt: hoursAgo(37), respondedAt: hoursAgo(36) });
+  await db.insert(schema.datePlans).values({ matchId: mAD.id, proposerId: D, venueId: "blr-brewhouse-indiranagar", slots: [adDate.toISOString(), istAt(4, 11, 0).toISOString()], chosenSlot: adDate, status: "confirmed", note: "I'll be the one with the yellow tote bag", shareToken: token(), createdAt: hoursAgo(37), respondedAt: hoursAgo(36) });
   await say(mAD.id, null, "Date confirmed! You can now share numbers in chat if you want to. Tip: send the plan to a friend.", hoursAgo(36));
-  await say(mAD.id, A, "See you Thursday 🙂", hoursAgo(35));
+  await say(mAD.id, A, `See you ${adDay} 🙂`, hoursAgo(35));
 
   // Aarav <-> Meera: matched 20h ago, chatting, no plan yet (Aarav can try the planner)
   await introPair(A, meera, hoursAgo(20));

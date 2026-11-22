@@ -125,7 +125,7 @@ npm run build        # migrate + production build (what Vercel runs)
 | 18 Nov | Testing the live site showed only 1 intro instead of 5 on the first day and a list overflowing on phones. Fixed both (PR #1). |
 | 20 Nov | Renamed the app to Unswipe, added a separate admin sign-in, limited grad years to 2020–2023, made demo replies match the stage of the date (PR #2). Made switching tabs feel instant after noticing slow taps (PR #3). |
 | 21 Nov | Added the live link to this README and fixed the demo chat naming the wrong day for the date (PR #4). |
-| 22 Nov | Final check before submitting, following this README on a fresh copy of the repo. `npm run db:migrate` was ignoring the `.env` file, so it now reads it. Updated Zod and the CSS tool inside Next.js so `npm audit` reports no known vulnerabilities. Reviewed security and added a login lockout, security headers and CI. The landing page example date now matches Aarav and Diya's demo date (PR #5). |
+| 22 Nov | Final check before submitting, following this README on a fresh copy of the repo. `npm run db:migrate` was ignoring the `.env` file, so it now reads it. Updated Zod and the CSS tool inside Next.js so `npm audit` reports no known vulnerabilities. Reviewed security and added a login lockout, security headers and CI. The landing page example date now matches Aarav and Diya's demo date (PR #5). Made the admin demo easier to find from the member sign-in page, while keeping its own sign-in (PR #6). |
 
 ## What I'd build next (and why it isn't in this version)
 

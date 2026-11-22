@@ -39,6 +39,9 @@ export const users = pgTable("users", {
   consentVersion: text("consent_version"),
   consentAt: timestamp("consent_at", { withTimezone: true }),
   noShows: integer("no_shows").notNull().default(0), // reported no-shows lower visibility
+  // brute-force protection: 5 wrong passwords in a row lock the account for 15 minutes
+  failedLogins: integer("failed_logins").notNull().default(0),
+  lockedUntil: timestamp("locked_until", { withTimezone: true }),
   plus: boolean("plus").notNull().default(false),
   isDemo: boolean("is_demo").notNull().default(false), // shared evaluator accounts (protected)
   isPersona: boolean("is_persona").notNull().default(false), // seeded profiles that auto-respond

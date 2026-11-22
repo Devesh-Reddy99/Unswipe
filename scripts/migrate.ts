@@ -3,6 +3,7 @@
  *  1. applies any new SQL migrations in /drizzle
  *  2. seeds demo data, but only if the database is empty
  */
+import "./load-env";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";

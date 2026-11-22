@@ -35,6 +35,8 @@ It runs on free hosting, so the first page after a few idle minutes can take a f
   - Phone numbers, emails, links and handles are masked before saving, until a date is confirmed.
   - A share-my-date link for a friend.
   - Report and block.
+  - Login lockout: 5 wrong passwords in a row lock a real account for 15 minutes. The demo accounts are left out, because their passwords are public and a lock would only block other evaluators.
+  - Security headers on every page: no framing by other sites (clickjacking), no MIME sniffing, a strict referrer policy, and no camera, microphone or location access.
   - "Hide me from my company" is on by default.
   - A work-email badge.
 - **Private post-date check-in.**
@@ -74,8 +76,9 @@ src/
   lib/            product logic: compat.ts (scoring), matching.ts (daily batches),
                   safety.ts (contact masking), slots.ts, personas.ts (demo), seed.ts
 drizzle/          SQL migrations
-scripts/          migrate.ts (runs on deploy, seeds an empty DB), seed.ts (reset)
+scripts/          migrate.ts (runs on deploy, seeds an empty DB), seed.ts (reset), load-env.ts
 tests/            unit tests for scoring, fairness, masking and time logic
+.github/workflows CI: type check + unit tests on every push and pull request
 docs/PRODUCT.md   product thinking: problem, decisions, monetisation, GTM, legal
 ```
 
@@ -111,6 +114,7 @@ npm run build        # migrate + production build (what Vercel runs)
 
 - **Unit tests** (`npm test`) for the core rules: compatibility scoring, fair exposure, contact masking, IST day boundaries and date-slot suggestions.
 - **Full flows by hand** on the live site, on both phone and laptop: sign up and onboarding, intros, matching, chat, planning and accepting a date, the post-date check-in, reporting, data download, account deletion and the admin dashboard.
+- **Continuous integration:** GitHub Actions runs the type check and the unit tests on every push and pull request.
 - Problems I found this way were fixed in their own pull requests (see below).
 
 ## How it was built
@@ -121,6 +125,7 @@ npm run build        # migrate + production build (what Vercel runs)
 | 18 Nov | Testing the live site showed only 1 intro instead of 5 on the first day and a list overflowing on phones. Fixed both (PR #1). |
 | 20 Nov | Renamed the app to Unswipe, added a separate admin sign-in, limited grad years to 2020–2023, made demo replies match the stage of the date (PR #2). Made switching tabs feel instant after noticing slow taps (PR #3). |
 | 21 Nov | Added the live link to this README and fixed the demo chat naming the wrong day for the date (PR #4). |
+| 22 Nov | Final check before submitting, following this README on a fresh copy of the repo. `npm run db:migrate` was ignoring the `.env` file, so it now reads it. Updated Zod and the CSS tool inside Next.js so `npm audit` reports no known vulnerabilities. Reviewed security and added a login lockout, security headers and CI. The landing page example date now matches Aarav and Diya's demo date (PR #5). |
 
 ## What I'd build next (and why it isn't in this version)
 

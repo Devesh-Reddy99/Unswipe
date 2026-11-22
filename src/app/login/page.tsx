@@ -21,6 +21,13 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <DemoLogin email="diya@unswipe.test" password="unswipe123" label="Diya, 24" sub="Woman, Bengaluru" />
           </div>
           <p className="hint mt-4">Aarav and Diya have a date with each other. Sign in as both in two browsers to see both sides.</p>
+          <div className="mt-5 border-t border-mist pt-4">
+            <p className="font-bold">Want to see the team side?</p>
+            <p className="hint mt-1">The ops and moderation dashboard has its own sign-in, kept separate from members.</p>
+            <Link href="/admin/login" className="btn-ghost mt-3 w-full">
+              Open the admin demo
+            </Link>
+          </div>
         </div>
       }
     >

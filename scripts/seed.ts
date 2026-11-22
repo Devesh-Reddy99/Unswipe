@@ -1,4 +1,5 @@
 // Force a fresh demo world: `npm run db:seed`
+import "./load-env";
 import { resetDemoData } from "../src/lib/seed";
 
 resetDemoData()

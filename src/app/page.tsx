@@ -5,15 +5,15 @@ import { Footer } from "@/components/Footer";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { Avatar } from "@/components/Avatar";
 import { VerifiedBadge } from "@/components/Badges";
-import { istAt, istWeekday } from "@/lib/time";
+import { istAt } from "@/lib/time";
 import { TAGLINE } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
 export default function Landing() {
-  // The hero ticket always shows "this Thursday" so the example feels live.
-  const daysToThu = (4 - istWeekday(0) + 7) % 7 || 7;
-  const when = istAt(daysToThu, 19, 30);
+  // The hero ticket shows the same date as Aarav and Diya's demo date (two days from today, 7:30 pm),
+  // so the landing page and the demo never disagree.
+  const when = istAt(2, 19, 30);
 
   return (
     <>

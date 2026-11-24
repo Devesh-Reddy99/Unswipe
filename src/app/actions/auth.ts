@@ -72,5 +72,4 @@ export async function login(_: FormState, form: FormData): Promise<FormState> {
 
 export async function logout() {
   await destroySession();
-  redirect("/");
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { and, desc, eq, gt, inArray, sql } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { requireAdmin } from "@/lib/auth";
-import { logout } from "@/app/actions/auth";
+import { SignOutButton } from "@/components/SignOutButton";
 import { resetDemo, resolveGrievance, resolveReport } from "@/app/actions/admin";
 import { Logo } from "@/components/Logo";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -108,9 +108,7 @@ export default async function Admin() {
         </div>
         <div className="flex gap-2">
           <Link href="/why" className="btn-ghost text-sm">Product decisions</Link>
-          <form action={logout}>
-            <button className="btn-ghost text-sm">Sign out</button>
-          </form>
+          <SignOutButton className="btn-ghost text-sm" />
         </div>
       </header>
 

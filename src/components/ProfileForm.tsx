@@ -73,7 +73,7 @@ export function ProfileForm({ initial, submitLabel }: { initial?: Profile | null
       <Section title="The basics">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="First name" htmlFor="name">
-            <input id="name" name="name" required maxLength={30} defaultValue={initial?.name} className="field" />
+            <input id="name" name="name" required minLength={2} maxLength={30} defaultValue={initial?.name} className="field" />
           </Field>
           <Field label="Date of birth" htmlFor="birthDate">
             <input id="birthDate" name="birthDate" type="date" required defaultValue={initial?.birthDate} className="field" />

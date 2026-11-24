@@ -1,5 +1,6 @@
 "use client";
 import { useActionState, useState } from "react";
+import { keepValues } from "@/lib/keep-values";
 import { acceptSlot, blockAndReport, cancelDate, declinePlan, demoSkipToAfterDate, proposePlan, requestExtension, submitFeedback, unmatch } from "@/app/actions/dating";
 import type { Venue } from "@/db/schema";
 import { REPORT_REASONS } from "@/lib/constants";
@@ -20,7 +21,7 @@ export function Planner({
   otherName: string;
   nearAreas: string[];
 }) {
-  const [state, action] = useActionState(proposePlan.bind(null, matchId), undefined);
+  const [state, action, pending] = useActionState(proposePlan.bind(null, matchId), undefined);
   const [picked, setPicked] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
   if (state?.ok) return null;
@@ -31,7 +32,7 @@ export function Planner({
       </button>
     );
   return (
-    <form action={action} className="panel grid gap-6 p-5">
+    <form onSubmit={keepValues(action)} className="panel grid gap-6 p-5">
       <fieldset>
         <legend className="display text-xl font-bold">1. Pick a place</legend>
         <p className="hint mt-1">Partner places give Unswipe dates a perk. Places near you or {otherName} are listed first.</p>
@@ -82,7 +83,7 @@ export function Planner({
       </div>
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       <div className="flex gap-2">
-        <SubmitButton pendingText="Sending…">Send suggestion</SubmitButton>
+        <SubmitButton pending={pending} pendingText="Sending…">Send suggestion</SubmitButton>
         <button type="button" className="btn-ghost" onClick={() => setOpen(false)}>Not now</button>
       </div>
     </form>
@@ -153,11 +154,11 @@ export function ConfirmedActions({ planId, shareUrl, mapsUrl, isDemo }: { planId
 }
 
 export function FeedbackForm({ planId, otherName }: { planId: string; otherName: string }) {
-  const [state, action] = useActionState(submitFeedback.bind(null, planId), undefined);
+  const [state, action, pending] = useActionState(submitFeedback.bind(null, planId), undefined);
   const [met, setMet] = useState<string>("");
   if (state?.ok) return <p className="rounded-2xl bg-leaf-soft p-4 text-leaf">Thanks. Your answers are private and help us pick better intros.</p>;
   return (
-    <form action={action} className="panel grid gap-5 p-5">
+    <form onSubmit={keepValues(action)} className="panel grid gap-5 p-5">
       <div>
         <h2 className="display text-xl font-bold">How did it go with {otherName}?</h2>
         <p className="hint mt-1">Private. {otherName} never sees your answers.</p>
@@ -175,7 +176,7 @@ export function FeedbackForm({ planId, otherName }: { planId: string; otherName:
       )}
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       <div>
-        <SubmitButton pendingText="Sending…" disabled={!met}>Send privately</SubmitButton>
+        <SubmitButton pending={pending} pendingText="Sending…" disabled={pending || !met}>Send privately</SubmitButton>
       </div>
     </form>
   );
@@ -207,7 +208,7 @@ export function ExtendButton({ matchId, asked }: { matchId: string; asked: boole
 }
 
 export function MatchMenu({ matchId, otherName }: { matchId: string; otherName: string }) {
-  const [state, action] = useActionState(blockAndReport.bind(null, matchId), undefined);
+  const [state, action, pending] = useActionState(blockAndReport.bind(null, matchId), undefined);
   return (
     <details className="relative">
       <summary className="btn-ghost cursor-pointer list-none px-3 py-1.5 text-sm" aria-label="More options">•••</summary>
@@ -215,7 +216,7 @@ export function MatchMenu({ matchId, otherName }: { matchId: string; otherName: 
         <form action={unmatch.bind(null, matchId)}>
           <SubmitButton className="btn-ghost w-full" pendingText="Closing…">Unmatch {otherName}</SubmitButton>
         </form>
-        <form action={action} className="mt-4 grid gap-2 border-t border-mist pt-4">
+        <form onSubmit={keepValues(action)} className="mt-4 grid gap-2 border-t border-mist pt-4">
           <p className="font-bold">Report and block</p>
           <label htmlFor="reason" className="sr-only">Reason</label>
           <select id="reason" name="reason" required defaultValue="" className="field text-sm">
@@ -227,7 +228,7 @@ export function MatchMenu({ matchId, otherName }: { matchId: string; otherName: 
           <label htmlFor="details" className="sr-only">Details</label>
           <textarea id="details" name="details" rows={2} placeholder="Details (optional)" className="field text-sm" />
           {state?.error && <p className="text-sm text-rose">{state.error}</p>}
-          <SubmitButton className="btn-danger" pendingText="Reporting…">Report and block</SubmitButton>
+          <SubmitButton pending={pending} className="btn-danger" pendingText="Reporting…">Report and block</SubmitButton>
           <p className="text-xs text-dusk">They won't know you reported them. In danger? Call 112.</p>
         </form>
       </div>

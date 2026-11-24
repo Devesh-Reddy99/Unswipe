@@ -1,13 +1,14 @@
 "use client";
 import { useActionState } from "react";
+import { keepValues } from "@/lib/keep-values";
 import Link from "next/link";
 import { giveConsent, verifyElitmus } from "@/app/actions/onboarding";
 import { SubmitButton } from "./SubmitButton";
 
 export function VerifyForm() {
-  const [state, action] = useActionState(verifyElitmus, undefined);
+  const [state, action, pending] = useActionState(verifyElitmus, undefined);
   return (
-    <form action={action} className="grid gap-5">
+    <form onSubmit={keepValues(action)} className="grid gap-5">
       <div>
         <label className="label" htmlFor="elitmusId">eLitmus candidate ID</label>
         <input id="elitmusId" name="elitmusId" inputMode="numeric" pattern="\d{7}" maxLength={7} required placeholder="7 digits" className="field max-w-xs" />
@@ -24,16 +25,16 @@ export function VerifyForm() {
       </div>
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       <div>
-        <SubmitButton pendingText="Verifying…">Verify with eLitmus</SubmitButton>
+        <SubmitButton pending={pending} pendingText="Verifying…">Verify with eLitmus</SubmitButton>
       </div>
     </form>
   );
 }
 
 export function ConsentForm() {
-  const [state, action] = useActionState(giveConsent, undefined);
+  const [state, action, pending] = useActionState(giveConsent, undefined);
   return (
-    <form action={action} className="grid gap-4">
+    <form onSubmit={keepValues(action)} className="grid gap-4">
       <Check name="adult">I am 18 or older.</Check>
       <Check name="processing">
         I agree that Unswipe can use my profile, answers, messages and date check-ins to suggest matches, run dates and
@@ -46,7 +47,7 @@ export function ConsentForm() {
       </Check>
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       <div>
-        <SubmitButton pendingText="Saving…">I agree, continue</SubmitButton>
+        <SubmitButton pending={pending} pendingText="Saving…">I agree, continue</SubmitButton>
       </div>
     </form>
   );

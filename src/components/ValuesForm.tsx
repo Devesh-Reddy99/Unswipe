@@ -1,5 +1,6 @@
 "use client";
 import { useActionState } from "react";
+import { keepValues } from "@/lib/keep-values";
 import { saveValues } from "@/app/actions/onboarding";
 import { QUESTIONS } from "@/lib/constants";
 import type { Answer } from "@/db/schema";
@@ -8,9 +9,9 @@ import { SubmitButton } from "./SubmitButton";
 const WEIGHTS = ["Not much", "Somewhat", "A lot"];
 
 export function ValuesForm({ initial, submitLabel }: { initial?: Record<string, Answer>; submitLabel: string }) {
-  const [state, action] = useActionState(saveValues, undefined);
+  const [state, action, pending] = useActionState(saveValues, undefined);
   return (
-    <form action={action} className="grid gap-6">
+    <form onSubmit={keepValues(action)} className="grid gap-6">
       {QUESTIONS.map((q, qi) => (
         <fieldset key={q.id} className="panel p-5">
           <legend className="sr-only">{q.text}</legend>
@@ -39,7 +40,7 @@ export function ValuesForm({ initial, submitLabel }: { initial?: Record<string, 
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       {state?.ok && <p role="status" className="font-bold text-leaf">{state.message}</p>}
       <div>
-        <SubmitButton pendingText="Saving…">{submitLabel}</SubmitButton>
+        <SubmitButton pending={pending} pendingText="Saving…">{submitLabel}</SubmitButton>
       </div>
     </form>
   );

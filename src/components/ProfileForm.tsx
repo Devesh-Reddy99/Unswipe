@@ -1,5 +1,6 @@
 "use client";
 import { useActionState, useState } from "react";
+import { keepValues } from "@/lib/keep-values";
 import { saveProfile } from "@/app/actions/onboarding";
 import { AREAS, AVAILABILITY, CITIES, DATE_STYLES, INTENTS, LANGUAGES, PROMPT_QUESTIONS } from "@/lib/constants";
 import type { Profile } from "@/db/schema";
@@ -22,7 +23,7 @@ async function resizePhoto(file: File): Promise<string> {
 }
 
 export function ProfileForm({ initial, submitLabel }: { initial?: Profile | null; submitLabel: string }) {
-  const [state, action] = useActionState(saveProfile, undefined);
+  const [state, action, pending] = useActionState(saveProfile, undefined);
   const [city, setCity] = useState<string>(initial?.city ?? "Bengaluru");
   const [photo, setPhoto] = useState<string | null>(null);
   const [removed, setRemoved] = useState(false);
@@ -32,7 +33,7 @@ export function ProfileForm({ initial, submitLabel }: { initial?: Profile | null
   const p2 = initial?.prompts?.[1];
 
   return (
-    <form action={action} className="grid gap-8">
+    <form onSubmit={keepValues(action)} className="grid gap-8">
       <Section title="Photo">
         <div className="flex items-center gap-5">
           <Avatar seed={initial?.avatarSeed ?? 3} photo={current} name="You" size={88} />
@@ -150,7 +151,7 @@ export function ProfileForm({ initial, submitLabel }: { initial?: Profile | null
               ))}
             </select>
             <label className="sr-only" htmlFor={`prompt${n}a`}>Your answer</label>
-            <input id={`prompt${n}a`} name={`prompt${n}a`} required maxLength={160} defaultValue={d?.a} placeholder="Your answer" className="field" />
+            <input id={`prompt${n}a`} name={`prompt${n}a`} required minLength={3} maxLength={160} defaultValue={d?.a} placeholder="Your answer (at least 3 characters)" className="field" />
           </div>
         ))}
       </Section>
@@ -176,7 +177,7 @@ export function ProfileForm({ initial, submitLabel }: { initial?: Profile | null
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       {state?.ok && <p role="status" className="font-bold text-leaf">{state.message}</p>}
       <div>
-        <SubmitButton pendingText="Saving…">{submitLabel}</SubmitButton>
+        <SubmitButton pending={pending} pendingText="Saving…">{submitLabel}</SubmitButton>
       </div>
     </form>
   );

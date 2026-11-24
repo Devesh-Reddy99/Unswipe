@@ -20,7 +20,7 @@ export async function joinWaitlist(_: FormState, form: FormData): Promise<FormSt
 
 const grievanceSchema = z.object({
   email: z.string().trim().email("Enter a valid email"),
-  subject: z.string().trim().min(3, "Add a short subject").max(120),
+  subject: z.string().trim().min(3, "Add a short subject (at least 3 characters)").max(120),
   body: z.string().trim().min(10, "Tell us a little more (10+ characters)").max(4000),
 });
 

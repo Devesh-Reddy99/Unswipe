@@ -2,7 +2,7 @@ import Link from "next/link";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { requireUser } from "@/lib/auth";
-import { logout } from "@/app/actions/auth";
+import { SignOutButton } from "@/components/SignOutButton";
 import { ageFrom } from "@/lib/time";
 import { INTENTS, PLUS_PRICE_INR } from "@/lib/constants";
 import { Avatar } from "@/components/Avatar";
@@ -83,9 +83,9 @@ export default async function Me() {
         </div>
       </section>
 
-      <form action={logout} className="mt-6 pb-6">
-        <button className="btn-ghost w-full">Sign out</button>
-      </form>
+      <div className="mt-6 pb-6">
+        <SignOutButton className="btn-ghost w-full" />
+      </div>
     </main>
   );
 }

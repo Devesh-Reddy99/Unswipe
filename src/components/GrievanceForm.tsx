@@ -15,11 +15,11 @@ export function GrievanceForm() {
       </div>
       <div>
         <label htmlFor="g-subject" className="label">Subject</label>
-        <input id="g-subject" name="subject" required maxLength={120} className="field" />
+        <input id="g-subject" name="subject" required minLength={3} maxLength={120} className="field" />
       </div>
       <div>
         <label htmlFor="g-body" className="label">What happened?</label>
-        <textarea id="g-body" name="body" rows={5} required maxLength={4000} className="field" />
+        <textarea id="g-body" name="body" rows={5} required minLength={10} maxLength={4000} placeholder="At least 10 characters" className="field" />
       </div>
       {state?.error && <p role="alert" className="font-bold text-rose">{state.error}</p>}
       <div>

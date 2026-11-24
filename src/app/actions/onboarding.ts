@@ -58,7 +58,7 @@ export async function giveConsent(_: FormState, form: FormData): Promise<FormSta
 const allAreas = Object.values(AREAS).flat();
 const profileSchema = z
   .object({
-    name: z.string().trim().min(2, "Add your first name").max(30),
+    name: z.string().trim().min(2, "Your first name needs at least 2 letters").max(30),
     birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Add your date of birth"),
     gender: z.enum(["man", "woman", "nonbinary"]),
     interestedIn: z.array(z.enum(["man", "woman", "nonbinary"])).min(1, "Choose who you'd like to meet"),
